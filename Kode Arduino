@@ -1,0 +1,93 @@
+// DEKLARASI PIN
+
+// Utara
+int U_M = 2;
+int U_K = 3;
+int U_H = 4;
+
+// Timur
+int T_M = 5;
+int T_K = 6;
+int T_H = 7;
+
+// Selatan
+int S_M = 8;
+int S_K = 9;
+int S_H = 10;
+
+// Barat
+int B_M = 11;
+int B_K = 12;
+int B_H = 13;
+
+
+// SETUP (JALAN SEKALI)
+
+void setup() {
+  // Set semua pin sebagai OUTPUT
+  for(int i=2; i<=13; i++){
+    pinMode(i, OUTPUT);
+  }
+}
+
+// FUNGSI: SEMUA MERAH
+
+void semuaMerah() {
+  for(int i=2; i<=13; i++){
+    digitalWrite(i, LOW); // matikan semua
+  }
+
+  digitalWrite(U_M, HIGH);
+  digitalWrite(T_M, HIGH);
+  digitalWrite(S_M, HIGH);
+  digitalWrite(B_M, HIGH);
+}
+
+
+// FUNGSI: AKTIFKAN SATU SIMPANG
+
+void aktifkanSimpang(int merah, int kuning, int hijau) {
+
+  semuaMerah(); // semua merah dulu
+
+  // ================= HIJAU =================
+  digitalWrite(merah, LOW);   // matikan merah
+  digitalWrite(hijau, HIGH);  // nyalakan hijau
+  delay(5000);                // 5 detik
+
+  // ================= KUNING KEDIP =================
+  digitalWrite(hijau, LOW);
+
+  for(int i=0; i<3; i++){
+    digitalWrite(kuning, HIGH);
+    delay(300);
+    digitalWrite(kuning, LOW);
+    delay(300);
+  }
+
+  digitalWrite(kuning, HIGH);
+  delay(2000); // 2 detik
+
+  digitalWrite(kuning, LOW);
+
+  // ================= KEMBALI MERAH =================
+  digitalWrite(merah, HIGH);
+}
+
+// =========================
+// LOOP (BERULANG TERUS)
+// =========================
+void loop() {
+
+  // UTARA
+  aktifkanSimpang(U_M, U_K, U_H);
+
+  // TIMUR
+  aktifkanSimpang(T_M, T_K, T_H);
+
+  // SELATAN
+  aktifkanSimpang(S_M, S_K, S_H);
+
+  // BARAT
+  aktifkanSimpang(B_M, B_K, B_H);
+}
